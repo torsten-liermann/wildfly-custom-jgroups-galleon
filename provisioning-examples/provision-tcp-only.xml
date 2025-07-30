@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installation xmlns="urn:jboss:galleon:provisioning:3.0">
+    <feature-pack location="org.wildfly:wildfly-ee-galleon-pack:28.0.1.Final">
+        <default-configs inherit="false"/>
+        <packages inherit="true"/>
+    </feature-pack>
+    
+    <feature-pack location="org.example:wildfly-custom-jgroups-galleon:1.0.0">
+        <default-configs inherit="false"/>
+        <config model="standalone" name="standalone.xml">
+            <layers>
+                <include name="tcp-clustering"/>
+            </layers>
+        </config>
+    </feature-pack>
+</installation>

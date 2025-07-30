@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build xmlns="urn:wildfly:feature-pack-build:3.3" 
+       producer="org.example:wildfly-custom-jgroups-galleon">
+    
+    <!-- Dependency on WildFly EE feature pack -->
+    <dependencies>
+        <dependency group-id="org.wildfly"
+                    artifact-id="wildfly-ee-galleon-pack"
+                    version="28.0.1.Final">
+            <!-- Trying to use name alias for referencing -->
+            <name>wildfly-ee</name>
+        </dependency>
+    </dependencies>
+    
+    <!-- No default configurations, layers will be explicitly chosen -->
+    
+</build>

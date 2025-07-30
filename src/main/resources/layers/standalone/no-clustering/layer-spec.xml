@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="no-clustering">
+    <!-- Layer for non-clustered deployments. Should provide a WildFly server without any JGroups subsystem. -->
+    
+    <dependencies>
+        <layer name="cloud-server"/>
+    </dependencies>
+    
+    <!-- 
+        Note: Simply not including clustering features should work,
+        but we want to ensure JGroups is completely absent.
+    -->
+    
+</layer-spec>

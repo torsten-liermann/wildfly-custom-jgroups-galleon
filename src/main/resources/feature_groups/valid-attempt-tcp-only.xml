@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature-group-spec xmlns="urn:jboss:galleon:feature-group:1.0" 
+                    name="valid-attempt-tcp-only">
+    
+    <!-- 
+        Valid attempt: Try to create a TCP-only configuration.
+        This is syntactically correct but doesn't achieve the goal.
+        
+        Problem: We can only define NEW features, not modify existing ones 
+        from the parent feature pack.
+    -->
+    
+    <!-- Define a minimal JGroups subsystem with only TCP -->
+    <feature spec="subsystem.jgroups">
+        <param name="default-channel" value="ee"/>
+        
+        <!-- This creates a NEW subsystem, doesn't modify the existing one -->
+        <feature spec="subsystem.jgroups.stack">
+            <param name="stack" value="tcp"/>
+            <feature spec="subsystem.jgroups.stack.transport">
+                <param name="transport" value="TCP"/>
+                <param name="socket-binding" value="jgroups-tcp"/>
+            </feature>
+        </feature>
+        
+        <feature spec="subsystem.jgroups.channel">
+            <param name="channel" value="ee"/>
+            <param name="stack" value="tcp"/>
+            <param name="cluster" value="ejb"/>
+        </feature>
+    </feature>
+    
+</feature-group-spec>
