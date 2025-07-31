@@ -1,22 +1,24 @@
 # WildFly Custom JGroups Galleon Feature Pack Example
 
-This repository demonstrates the challenge of modifying features from parent feature packs using Galleon.
+This repository demonstrates an attempt to create custom WildFly configurations using Galleon feature packs.
 
-## Problem Statement
+## Goal
 
-We want to create a custom Galleon feature pack that provides three WildFly variants:
+Create a custom Galleon feature pack that provides three WildFly variants:
 1. **No Clustering**: WildFly without JGroups
 2. **TCP-Only Clustering**: WildFly with only TCP stack (no UDP)
 3. **UDP-Only Clustering**: WildFly with only UDP stack (no TCP)
 
-## Current Status
+## Approach
 
-What we've found so far:
-- ✓ We can add new features
-- ✓ We can choose not to include certain layers (e.g., no clustering works)
-- Our attempts to selectively include only TCP or UDP have not succeeded yet
+This example attempts to use Galleon's exclude mechanism to remove unwanted JGroups stacks from the wildfly-ee-galleon-pack that we depend on.
 
-We're looking for the right approach to achieve these configurations.
+## Current Finding
+
+The exclude mechanism does not work across feature pack boundaries. We cannot:
+- Reference feature groups from dependency feature packs using `origin` attribute
+- Exclude features that are defined in dependency feature packs
+- Modify configurations from dependency feature packs declaratively
 
 ## Repository Structure
 
@@ -27,16 +29,17 @@ We're looking for the right approach to achieve these configurations.
 ├── wildfly-feature-pack-build.xml
 ├── src/main/resources/
 │   ├── feature_groups/
-│   │   └── valid-attempt-tcp-only.xml    # TCP-only configuration attempt
+│   │   ├── tcp-only-stack.xml            # TCP-only configuration
+│   │   └── udp-only-stack.xml            # UDP-only configuration
+│   ├── configs/standalone/
+│   │   ├── standalone-tcp-only.xml       # Config referencing tcp-only feature group
+│   │   ├── standalone-udp-only.xml       # Config referencing udp-only feature group
+│   │   └── standalone-no-clustering.xml  # Config without clustering
 │   └── layers/standalone/
 │       ├── tcp-clustering/layer-spec.xml
 │       └── no-clustering/layer-spec.xml
-├── provisioning-examples/
-│   ├── provision-with-both-stacks.xml    # Shows default behavior
-│   ├── provision-tcp-only.xml            # TCP-only provisioning attempt
-│   └── provision-no-clustering.xml       # Works
-└── test-results/
-    └── analysis.md
+└── provisioning-examples/
+    └── custom-feature-pack-only.xml      # Provision using only our feature pack
 
 ```
 
@@ -48,39 +51,24 @@ We're looking for the right approach to achieve these configurations.
 
 ## Testing
 
-### Test 1: Default WildFly with clustering
 ```bash
-galleon.sh provision provisioning-examples/provision-with-both-stacks.xml --dir=server-default
-# Result: Both TCP and UDP stacks are present
+# Provision a server using only our custom feature pack
+galleon.sh provision provisioning-examples/custom-feature-pack-only.xml --dir=server-custom
+
+# Check the configuration
+grep -E "stack name=\"(tcp|udp)\"" server-custom/standalone/configuration/standalone-tcp-only.xml
 ```
 
-### Test 2: No clustering (works)
-```bash
-galleon.sh provision provisioning-examples/provision-no-clustering.xml --dir=server-no-clustering
-# Result: No JGroups subsystem - this works as expected
-```
+## Key Files
 
-### Test 3: TCP-only attempt
-```bash
-galleon.sh provision provisioning-examples/provision-tcp-only.xml --dir=server-tcp-only
-# Result: Provisioning error
-```
+### wildfly-feature-pack-build.xml  
+Uses transitive dependency with `default-configs inherit="false"` to avoid inheriting standard configurations.
 
-## The Core Question
+### feature_groups/tcp-only-stack.xml
+Shows that we cannot reference feature groups from dependency feature packs - the `origin` attribute is not supported in this context.
 
-How can we achieve these specific server configurations using Galleon's feature pack mechanism?
-
-## Working Alternative
-
-The only working approach for "no clustering" is simple - don't include the clustering layer:
-```xml
-<layers>
-    <include name="cloud-server"/>
-    <!-- Don't include web-clustering -->
-</layers>
-```
-
-But this doesn't help for TCP-only or UDP-only configurations.
+### The Core Question
+Is it possible to declaratively exclude features (like JGroups stacks) from dependency feature packs, or must this be done post-provisioning with CLI scripts?
 
 ## Related Links
 

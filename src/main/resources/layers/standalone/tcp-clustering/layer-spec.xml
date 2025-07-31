@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="tcp-clustering">
-    <!-- Description must be outside as comment, not as element -->
     <!-- Layer for TCP-only clustering. Should provide clustering capabilities with only TCP stack (no UDP). -->
     
     <dependencies>
@@ -8,12 +7,6 @@
         <layer name="transactions"/>
     </dependencies>
     
-    <!-- 
-        Try different feature groups based on attempt:
-        - attempt1-tcp-only-with-origin
-        - attempt2-tcp-only-excludes  
-        - attempt3-tcp-only-complete
-    -->
-    <feature-group name="valid-attempt-tcp-only"/>
+    <feature-group name="tcp-only-stack"/>
     
 </layer-spec>

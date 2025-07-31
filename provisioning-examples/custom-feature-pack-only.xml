@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<installation xmlns="urn:jboss:galleon:provisioning:3.0">
+    <!-- Only our custom feature pack - WildFly comes as dependency -->
+    <feature-pack location="org.example:wildfly-custom-jgroups-galleon:1.0.0">
+        <!-- Don't inherit default configs, use only what we specify -->
+        <default-configs inherit="false"/>
+        <packages inherit="true"/>
+    </feature-pack>
+    
+    <!-- Explicitly specify which configuration to generate -->
+    <config model="standalone" name="standalone-tcp-only.xml">
+        <layers>
+            <include name="tcp-clustering"/>
+        </layers>
+    </config>
+    
+    <options>
+        <option name="jboss-fork-embedded" value="true"/>
+        <option name="optional-packages" value="passive+"/>
+    </options>
+</installation>

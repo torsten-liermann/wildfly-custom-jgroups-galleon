@@ -6,9 +6,4 @@
         <layer name="cloud-server"/>
     </dependencies>
     
-    <!-- 
-        Note: Simply not including clustering features should work,
-        but we want to ensure JGroups is completely absent.
-    -->
-    
 </layer-spec>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="udp-clustering">
+    <!-- Layer for UDP-only clustering. Should provide clustering capabilities with only UDP stack (no TCP). -->
+    
+    <dependencies>
+        <layer name="cloud-server"/>
+        <layer name="transactions"/>
+    </dependencies>
+    
+    <feature-group name="udp-only-stack"/>
+    
+</layer-spec>

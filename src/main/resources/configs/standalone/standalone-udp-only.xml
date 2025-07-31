@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="urn:jboss:galleon:config:1.0" 
+        name="standalone-udp-only.xml" 
+        model="standalone">
+    
+    <!-- Reference udp-only-stack feature group -->
+    <feature-groups>
+        <feature-group name="udp-only-stack"/>
+    </feature-groups>
+    
+</config>

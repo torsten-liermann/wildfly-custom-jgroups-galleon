@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="urn:jboss:galleon:config:1.0" 
+        name="standalone-no-clustering.xml" 
+        model="standalone">
+    
+    <!-- Server without clustering - cloud-server layer only -->
+    <layers>
+        <include name="cloud-server"/>
+    </layers>
+    
+</config>

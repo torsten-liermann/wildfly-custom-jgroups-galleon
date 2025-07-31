@@ -23,6 +23,15 @@
         <galleon.plugin.version>6.4.0.Final</galleon.plugin.version>
     </properties>
     
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly.galleon-plugins</groupId>
+            <artifactId>wildfly-galleon-plugins</artifactId>
+            <version>${galleon.plugin.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    
     <build>
         <plugins>
             <plugin>

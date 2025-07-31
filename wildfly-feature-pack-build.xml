@@ -7,11 +7,19 @@
         <dependency group-id="org.wildfly"
                     artifact-id="wildfly-ee-galleon-pack"
                     version="28.0.1.Final">
-            <!-- Trying to use name alias for referencing -->
             <name>wildfly-ee</name>
+            <packages inherit="true"/>
+            <default-configs inherit="false"/>
         </dependency>
     </dependencies>
     
-    <!-- No default configurations, layers will be explicitly chosen -->
+    <plugins>
+        <plugin artifact="org.wildfly.galleon-plugins:wildfly-galleon-plugins"/>
+    </plugins>
+    
+    <!-- Define configurations that reference our feature groups -->
+    <config name="standalone-no-clustering.xml" model="standalone"/>
+    <config name="standalone-tcp-only.xml" model="standalone"/>
+    <config name="standalone-udp-only.xml" model="standalone"/>
     
 </build>
